@@ -1,0 +1,11 @@
+Table{
+    width: 70%;
+    height: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+     
+}
+Table.td{
+    display: flex;
+    flex-direction: row;
+}

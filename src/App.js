@@ -1,24 +1,33 @@
-import logo from './logo.svg';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import CourseList from './component/CourseList';
+import AddCourse from './component/AddCourse';
+import CourseDetail from './component/CourseDetails';
+import AddInstance from './component/AddInstance';
+import ListInstance from './component/ListInstance';
 import './App.css';
+import InstanceDetails from './component/InstanceDetails';
+import AppNavbar from './component/NavBar';
 
 function App() {
   return (
+    <Router>
+      <AppNavbar/>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <Routes>
+      
+       <Route path="/" element={<AddCourse/>}/>
+     
+      
+      <Route path="/instancelist" element={<ListInstance/>} />
+      <Route path="/courselist" element={<CourseList/>} /> 
+      <Route path="/instance/:year/:semester/:courseID" element={<InstanceDetails/>}/>
+      <Route path='/addInstance' element={<AddInstance/>} />
+      <Route path="/course/:id" element={<CourseDetail/>} />
+      </Routes>
     </div>
+    
+    </Router>
   );
 }
 

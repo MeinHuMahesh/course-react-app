@@ -1,0 +1,49 @@
+
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: mahesh123
+      MYSQL_DATABASE: coursemanagment
+      MYSQL_USER: mahesh
+      MYSQL_PASSWORD: mahesh123
+    ports:
+      - "3307:3306"
+    networks:
+      - app-network
+
+  app:
+    image: maheshKamble/backend
+    container_name: backend-container
+    ports:
+      - "9090:9090"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3307/coursemanagment
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+    depends_on:
+      - mysql
+    entrypoint: ["./wait-for-it.sh", "mysql:3306", "--", "java", "-jar", "course-management-docker.jar"]
+    networks:
+      - app-network
+
+  frontend:
+   
+    image: maheshkamble/frontend
+    container_name: frontend-container  
+    ports:
+      - "3000:3000"
+    depends_on:
+      - app
+    networks:
+      - app-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:3000
+
+networks:
+  app-network:
+    driver: bridge
